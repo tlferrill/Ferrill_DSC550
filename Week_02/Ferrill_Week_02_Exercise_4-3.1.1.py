@@ -6,6 +6,7 @@
 #   Desc: Compute the Jaccard Similarities of each pair of three sets
 #  Usage: Jaccard Similarity of Sets is the ratio of the size of the
 #         intersection of sets divided by their union
+#    Ref: https://stackoverflow.com/questions/46975929/how-can-i-calculate-the-jaccard-similarity-of-two-lists-containing-strings-in-py
 # ------------------------------------------------------------------
 
 # import statements
