@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------
 #   File: Ferrill_Week_02_Exercise_4-3.1.1.py
-#   Name: Teresa Ferrill_Week_02_Exercise_4-3
+#   Name: Teresa Ferrill
 #   Date: 6/14/2020
 # Course: DSC550-T302 Data Mining
 #   Desc: Compute the Jaccard Similarities of each pair of three sets
