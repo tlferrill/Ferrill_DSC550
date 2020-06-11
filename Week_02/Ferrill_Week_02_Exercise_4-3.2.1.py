@@ -12,20 +12,38 @@
 # import statements
 import traceback
 
-# initialize variables
-# variable for the sentence, initialized as a string
-sentence = 'The most effective way to represent documents as sets, for the purpose of identifying lexically similar documents is to construct from the document the set of short strings that appear within it.'
-# variable for substring length
-k = 3
+# function to return shingles based on letters in the sentence
+def shingles_letter(sentence, k):
+    # step through sentence and return 10 groups of three letters each
+    return [sentence[i:i + k] for i in range(0,10)]
+
+# function to return shingles based on words in the sentence
+def shingles_word(sentence, k):
+    # split sentence into words
+    tokens = sentence.split()
+
+    # step through words as tokens and return 10 groups of three words each
+    return [tokens[i:i + k] for i in range(0,10)]
 
 # main function to obtain list of first 10 3-shingles in the sentence
 def main():
+    # variable for the sentence, initialized as a string
+    sentence = 'The most effective way to represent documents as sets, for the purpose of identifying lexically similar documents is to construct from the document the set of short strings that appear within it.'
+    
+    # variable for substring length
+    k = 3
+    
     # try block for execution
     try:
         # print sentence
         print('\n' + sentence)
-        # list first 10 3-shingles in the sentence
-        print('\nFirst 10 3-shingles in sentence: ' + str([sentence[i:i + k] for i in range(0,10)]))
+        
+        # list first 10 3-shingles in the sentence, based on letters in the sentence
+        print('\nFirst 10 3-shingles in sentence (based on letters): ' + str(shingles_letter(sentence, k)))
+        
+        # list first 10 3-shingles in the sentence, based on words in the sentence
+        print('\nFirst 10 3-shingles in sentence (based on words): ' + str(shingles_word(sentence, k)))
+        
     # exception block to catch any exceptions during execution
     except Exception as exception:
         print('exception')
