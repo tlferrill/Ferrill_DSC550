@@ -30,7 +30,7 @@ def compute_s_curve(row, band):
         s_curve.append(1-(1-s_values[i]**row)**band)
     return s_curve
     
-def plot_s_curve(s_curve_list):
+def plot_s_curve(s_curve_list, row_name, band_name):
     # x axis values 
     x = s_values 
     # y axis values
@@ -44,7 +44,7 @@ def plot_s_curve(s_curve_list):
     # y axis title
     plt.ylabel('S - Curve')
     # graph title
-    plt.title('Plotting S-Curve') 
+    plt.title('Plotting S-Curve - Row: ' + row_name + ', Band: ' + band_name) 
     # show the plot 
     plt.show() 
     
@@ -53,9 +53,9 @@ def main():
     # try block for execution
     try:
         # call to compute and plot s-curve for all three sets of rows and bands
-        plot_s_curve(compute_s_curve(r1, b1))
-        plot_s_curve(compute_s_curve(r2, b2))
-        plot_s_curve(compute_s_curve(r3, b3))
+        plot_s_curve(compute_s_curve(r1, b1), str(r1), str(b1))
+        plot_s_curve(compute_s_curve(r2, b2), str(r2), str(b2))
+        plot_s_curve(compute_s_curve(r3, b3), str(r3), str(b3))
     # exception block to catch any exceptions during execution
     except Exception as exception:
         print('exception')
