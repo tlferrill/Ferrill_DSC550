@@ -12,19 +12,6 @@
 # import statements
 import traceback
 
-# function to return shingles based on letters in the sentence
-def shingles_letter(sentence, k):
-    # step through sentence and return 10 groups of three letters each
-    return [sentence[i:i + k] for i in range(0,10)]
-
-# function to return shingles based on words in the sentence
-def shingles_word(sentence, k):
-    # split sentence into words
-    tokens = sentence.split()
-
-    # step through words as tokens and return 10 groups of three words each
-    return [tokens[i:i + k] for i in range(0,10)]
-
 # main function to obtain list of first 10 3-shingles in the sentence
 def main():
     # variable for the sentence, initialized as a string
@@ -36,13 +23,25 @@ def main():
     # try block for execution
     try:
         # print sentence
-        print('\n' + sentence)
+        print('\nSentence:\n' + sentence)
         
-        # list first 10 3-shingles in the sentence, based on letters in the sentence
-        print('\nFirst 10 3-shingles in sentence (based on letters): ' + str(shingles_letter(sentence, k)))
+        # step through sentence and create list of 10 groups of three letters each
+        sentence_list = [sentence[i:i + k] for i in range(0,10)]
         
-        # list first 10 3-shingles in the sentence, based on words in the sentence
-        print('\nFirst 10 3-shingles in sentence (based on words): ' + str(shingles_word(sentence, k)))
+        # step through list and print each list value         
+        print('\nFirst 10 3-shingles in sentence (based on letters):\n')        
+        for i in range(0, len(sentence_list)):
+            print(str(i+1) + ': [' + sentence_list[i] + ']\n')
+        
+        # split the sentence into words
+        tokens = sentence.split()
+        # step through words and create list of 10 groups of three words each
+        word_list = [tokens[i:i + k] for i in range(0,10)]
+        
+        # step through list and print each list value
+        print('\nFirst 10 3-shingles in sentence (based on words):\n')
+        for i in range(0, len(word_list)):
+            print(str(i+1) + ': ' + str(word_list[i]) + '\n')
         
     # exception block to catch any exceptions during execution
     except Exception as exception:
