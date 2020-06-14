@@ -16,7 +16,6 @@ import traceback
 import pandas as pd
 # import sys to support high volume/value processing
 import sys
-from math import*
 
 # initialize variables
 # variable for element list
@@ -88,15 +87,21 @@ def compare_hash_element_list(hash_list_name, hash_list):
         print(hash_list_name + ' is a true permutation of elements list')
     else:
         print(hash_list_name + ' is not a true permutation of elements list')
-          
+
+# function to compute Jaccard Similarity of two lists
 def jaccard_similarity(x,y):
+    # determine intersection
     i = intersection_cardinality(x,y)
+    # determin union
     u = union_cardinality(x,y)
+    # compute and return similiarty
     return round(float(i) / u,3)
-    
+
+# function to compute intersection of two lists
 def intersection_cardinality(x,y):
     return len(list(set(x).intersection(y)))
 
+# function to compute union of two lists
 def union_cardinality(x,y):
     return (len(x) + len(y)) - intersection_cardinality(x,y)
  
