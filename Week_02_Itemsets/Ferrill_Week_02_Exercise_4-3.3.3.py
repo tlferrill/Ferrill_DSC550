@@ -25,6 +25,12 @@ s1 = (0,0,1,0,0,1)
 s2 = (1,1,0,0,0,0)
 s3 = (0,0,0,1,1,0)
 s4 = (1,0,1,0,1,0)
+# variable for dictionary of sets
+set_dict = {'S1': s1, 'S2': s2, 'S3': s3, 'S4': s4}
+# variable for DataFrame of set dictionary
+set_df = pd.DataFrame(data=set_dict)
+# variable for dictionary of hash functions
+hf = {'h1', 'h2', 'h3'}
 
 # return first hash formula as a function
 def h1(x):
@@ -88,29 +94,40 @@ def compare_hash_element_list(hash_list_name, hash_list):
     else:
         print(hash_list_name + ' is not a true permutation of elements list')
 
-# function to compute Jaccard Similarity of two lists
-def jaccard_similarity(x,y):
-    # determine intersection
-    i = intersection_cardinality(x,y)
-    # determin union
-    u = union_cardinality(x,y)
-    # compute and return similiarty
-    return round(float(i) / u,3)
+# function to compute Jaccard Similarity of two lists  
+def compute_js(list1, list1_name, list2, list2_name):
+    # variable for intersection
+    match = 0
+    # set total (union of jaccard similarity) 
+    # check to see if the lists are estimated or true
+    if(list1_name.find('Sig') != -1):
+        # length of minhash signagures
+        total = len(hf)        
+    else:
+        # length of sets
+        total = len(set_dict)
+    # loop through the list and set match (intersection)
+    for i in range(0, len(list1)):
+        # intersection for minhash signatures
+        # count if the two elemeents match, otherwise do nothing
+        if(list1_name.find('Sig') != -1):
+            if(list1[i] == list2[i]):
+                match += 1
+            else:
+                pass
+        else:
+            # intersection for boolean set lists, do not count if both columns equal zero
+            if(list1[i] == 0 & list2[i] == 0):        
+                pass
+            # count the intersection only if the two list elements match
+            else:
+                if(list1[i] == list2[i]):
+                    match += 1
+                else:
+                    pass
+    # return string list of jaccard similarities values            
+    return (list1_name + ' and ' + list2_name + ': ' + str(match) + ' / ' + str(total) + ' or ' + str(round(match/total, 3)))    
 
-# function to compute intersection of two lists
-def intersection_cardinality(x,y):
-    set_x = set(x)
-    set_y = set(y)
-    #return len(list(set(x).intersection(y)))
-    return len(set_x.intersection(set_y))
-
-# function to compute union of two lists
-def union_cardinality(x,y):
-    #return (len(x) + len(y)) - intersection_cardinality(x,y)
-    set_x = set(x)
-    set_y = set(y)
-    return (len(set_x.union(set_y)))
- 
 # function to reverse columns and rows within the sets, filling a single ilst
 def create_set_data():
     # variable to hold matrix
@@ -120,9 +137,9 @@ def create_set_data():
         matrix.append([s1[i], s2[i], s3[i], s4[i]])
     print('\nRow Set Data: ' + str(matrix))
     return matrix
-    
-# function to create signature matrix
-def minhash(data, hashfuncs):
+
+#function to create signature matrix
+def minhash(data):
     ''' pesudo-code for minhash    
     for each row r do begin
         for each hash function hi do
@@ -133,28 +150,33 @@ def minhash(data, hashfuncs):
                     if h1(r) is smaller than M(i,c) then 
                         M(i,c) := hi(r)  (replace)
     '''
-    # initialize rows, columns, and signature rows variables
-    rows = len(data)
-    cols = len(data[0])
-    sigrows = len(hashfuncs)
-    # initialize signature matrix with maxsize
-    sigmatrix = []
-    # loop through rows to fill the signature matrix
-    for i in range(sigrows):
-        sigmatrix.append([sys.maxsize] * cols)
-    # loop through rows using hash functions to fill columns
-    for r in range(rows):
-        hashvalue = list(map(lambda x: x(r), hashfuncs))
-        # if data != 0 and signature > hash value, replace signature with hash value
-        for c in range(cols):
-            if data[r][c] == 0:
+    # establish variables for columns and DataFrame
+    columns = data.columns
+    new_data = pd.DataFrame({})
+    # fill DataFrame with computed has function values
+    new_data['h1'] = h1(data.index)
+    new_data['h2'] = h2(data.index)
+    new_data['h3'] = h3(data.index)
+    # set index from DataFrame columns
+    index = new_data.columns
+    # set up DataFrame for minhash
+    sig_data = pd.DataFrame(index=index, columns=columns)
+    # fill the NaN elements with a value
+    sig_data = sig_data.fillna(10000)
+    # loop through each row
+    for r in data.index:
+        # loop through each column
+        for c in data.columns:
+            # if the row, column value is zero, do nothing
+            if data.at[r,c] == 0:
                 continue
-            for i in range(sigrows):
-                # if the sigmatrix value is greater than the hashvalue, replace with hashvalue
-                if sigmatrix[i][c] > hashvalue[i]:
-                    sigmatrix[i][c] = hashvalue[i]
-    return sigmatrix    
-        
+            # loop through hash functions can set values based on hash values
+            for h in ['h1','h2','h3']:
+                # if the hash function value is greater than existing value, update value
+                if sig_data.at[h,c] > new_data.at[r,h]:
+                    sig_data.at[h,c] = new_data.at[r,h]
+    # return list DataFrame as a list
+    return sig_data.values.tolist()
 
 # main function to obtain list of first 10 3-shingles in the sentence
 def main():
@@ -171,6 +193,7 @@ def main():
         hash_list_2 = hash_2(elements)
         hash_list_3 = hash_3(elements)
         
+        # list hash lists
         print('\nHash List 1: ' + str(hash_list_1))
         print('Hash List 2: ' + str(hash_list_2))
         print('Hash List 3: ' + str(hash_list_3))
@@ -179,10 +202,18 @@ def main():
         create_full_matrix(hash_list_1, hash_list_2, hash_list_3)
         
         # generate minhash signature
-        # question (a)
-        print('\n(a) Compute the minhash signature for each column using three hash functions.')
-        minhash_sig = minhash(create_set_data(), [h1, h2, h3])
-        print('\nFinal Minhash Signature: ' + str(minhash_sig))
+        # question (a)       
+        print('\n(a) Compute the minhash signature for each column using three hash functions.')     
+        print('\nHash Function 1: ((2 * x) + 1) % 6')
+        print('Hash Function 2: ((3 * x) + 2) % 6')
+        print('Hash Function 3: ((5 * x) + 2) % 6')
+        
+        # set minhash signature
+        minhash_sig = minhash(set_df)
+        # print each row of minhash signature
+        print('\nFinal Minhash Signature: ')
+        for i in range(len(minhash_sig)):
+            print('h' + str(i+1) + ': ' + str(minhash_sig[i]))
         
         # determine which hash function is true permutation
         # question (b)
@@ -195,29 +226,33 @@ def main():
         # question (c)
         print('\n(c) How close are the estimated Jaccard Similarities to the true Jaccard Similarities?')
         # similarities of columns 1 & 2, 1 & 3, 1 & 4, 2 & 3, 2 & 4, 3 & 4
-        
-        print('\nCol 1 and Col 2: ' + str(intersection_cardinality(s1, s2)) + ' / ' + str(union_cardinality(s1,s2)) + str(' or ' + str(jaccard_similarity(s1, s2))))
-        print('Col 1 and Col 3: ' + str(intersection_cardinality(s1, s3)) + ' / ' + str(union_cardinality(s1,s3)) + str(' or ' + str(jaccard_similarity(s1, s3))))
-        print('Col 1 and Col 4: ' + str(intersection_cardinality(s1, s4)) + ' / ' + str(union_cardinality(s1,s4)) + str(' or ' + str(jaccard_similarity(s1, s4))))
-        print('Col 2 and Col 3: ' + str(intersection_cardinality(s2, s3)) + ' / ' + str(union_cardinality(s2,s3)) + str(' or ' + str(jaccard_similarity(s2, s3))))
-        print('Col 2 and Col 4: ' + str(intersection_cardinality(s2, s4)) + ' / ' + str(union_cardinality(s2,s4)) + str(' or ' + str(jaccard_similarity(s2, s4)))) 
-        print('Col 3 and Col 4: ' + str(intersection_cardinality(s3, s4)) + ' / ' + str(union_cardinality(s3,s4)) + str(' or ' + str(jaccard_similarity(s3, s4))))
-         
+           
         # similarities of signatures 
         # establish columns of signatures
-        minhash_1 = [minhash_sig[0][0], minhash_sig[1][0], minhash_sig[2][0]]
-        minhash_2 = [minhash_sig[0][1], minhash_sig[1][1], minhash_sig[2][1]]
-        minhash_3 = [minhash_sig[0][2], minhash_sig[1][2], minhash_sig[2][2]]
-        minhash_4 = [minhash_sig[0][3], minhash_sig[1][3], minhash_sig[2][3]]
+        m1 = [minhash_sig[0][0], minhash_sig[1][0], minhash_sig[2][0]]
+        m2 = [minhash_sig[0][1], minhash_sig[1][1], minhash_sig[2][1]]
+        m3 = [minhash_sig[0][2], minhash_sig[1][2], minhash_sig[2][2]]
+        m4 = [minhash_sig[0][3], minhash_sig[1][3], minhash_sig[2][3]]
         
+        print('\nEstimated Jaccard Similarities computed using MinHash\n(sig/sig = Numbers of common minhash signatures/total numbers of minhash signatures):')
         # similarities of signatures 1 & 2, 1 & 3, 1 & 4, 2 & 3, 2 & 4, 3 & 4
-        print('\nSig 1 and Sig 2: ' + str(intersection_cardinality(minhash_1, minhash_2)) + ' / ' + str(union_cardinality(minhash_1, minhash_2)) + str(' or ' + str(jaccard_similarity(minhash_1, minhash_2))))
-        print('Sig 1 and Sig 3: ' + str(intersection_cardinality(minhash_1, minhash_3)) + ' / ' + str(union_cardinality(minhash_1, minhash_3)) + str(' or ' + str(jaccard_similarity(minhash_1, minhash_3))))
-        print('Sig 1 and Sig 4: ' + str(intersection_cardinality(minhash_1, minhash_4)) + ' / ' + str(union_cardinality(minhash_1, minhash_4)) + str(' or ' + str(jaccard_similarity(minhash_1, minhash_4))))
-        print('Sig 2 and Sig 3: ' + str(intersection_cardinality(minhash_2, minhash_3)) + ' / ' + str(union_cardinality(minhash_2, minhash_3)) + str(' or ' + str(jaccard_similarity(minhash_2, minhash_3))))
-        print('Sig 2 and Sig 4: ' + str(intersection_cardinality(minhash_2, minhash_4)) + ' / ' + str(union_cardinality(minhash_2, minhash_4)) + str(' or ' + str(jaccard_similarity(minhash_2, minhash_4))))
-        print('Sig 3 and Sig 4: ' + str(intersection_cardinality(minhash_3, minhash_4)) + ' / ' + str(union_cardinality(minhash_3, minhash_4)) + str(' or ' + str(jaccard_similarity(minhash_3, minhash_4))))
+        print(compute_js(m1, 'Sig 1', m2, 'Sig 2'))
+        print(compute_js(m1, 'Sig 1', m3, 'Sig 3'))
+        print(compute_js(m1, 'Sig 1', m4, 'Sig 4'))
+        print(compute_js(m2, 'Sig 2', m3, 'Sig 3'))
+        print(compute_js(m2, 'Sig 2', m4, 'Sig 4'))
+        print(compute_js(m3, 'Sig 3', m4, 'Sig 4'))
+        print(compute_js(m3, 'Sig 3', m4, 'Sig 4'))
         
+        print('\nTrue Similarities computed using original Sets\n(col/col = Numbers of common columns/total numbers of columns):')        
+        # similarities of columns of sets
+        print(compute_js(s1, 'Col 1', s2, 'Col 2'))
+        print(compute_js(s1, 'Col 1', s3, 'Col 3'))
+        print(compute_js(s1, 'Col 1', s4, 'Col 4'))
+        print(compute_js(s2, 'Col 2', s3, 'Col 3'))
+        print(compute_js(s2, 'Col 2', s4, 'Col 4'))
+        print(compute_js(s3, 'Col 3', s4, 'Col 4'))
+  
         # summary of comparision of Jaccard Similarities of columns and signatures
         print('\nThe estimated Jaccard similarities are not close to the true ones.')
     
