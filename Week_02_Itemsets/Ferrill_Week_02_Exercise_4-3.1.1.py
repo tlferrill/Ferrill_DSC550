@@ -6,12 +6,12 @@
 #   Desc: Compute the Jaccard Similarities of each pair of three sets
 #  Usage: Jaccard Similarity of Sets is the ratio of the size of the
 #         intersection of sets divided by their union
-#    Ref: https://stackoverflow.com/questions/46975929/how-can-i-calculate-the-jaccard-similarity-of-two-lists-containing-strings-in-py
-#         https://tirsen.com/2011/08/26/shingles.html
+#    Ref: https://stackoverflow.com/questions/46975929/how-can-i-calculate-the-jaccard-similarity-of-two-lists-containing-strings-in-py#         
 # ------------------------------------------------------------------
 
 # import statements
 import traceback
+from collections import Counter
 
 # initialize variables
 # variables for sets, initialized as lists
@@ -22,15 +22,15 @@ set_3 = {2,4,6}
 # function to compute and print jaccard similarity based on two sets
 def report_jaccard_similarity(list1_name, list1, list2_name, list2):
     # compute intersection
-    intersection = len(list(set(list1).intersection(list2)))
+    intersec = len(list1.intersection(list2))
     # compute union
-    union = (len(list1) + len(list2)) - intersection
+    un = len(list1.union(list2))
     # compute jaccard similarity
-    js = round(float(intersection) / union,3)
+    js = round(intersec / un,3)
     # print lists and results of computation
     print("\n" + list1_name + ": " + str(list1))
     print(list2_name + ": " + str(list2))
-    print("Jaccard Similarity between " + list1_name + " and " + list2_name + ": " + str(intersection) + " / " + str(union) + " or " + str(js))
+    print("Jaccard Similarity between " + list1_name + " and " + list2_name + ": " + str(intersec) + " / " + str(un) + " or " + str(js))
 
 # main function to compute jaccard similarity between three sets of numbers
 def main():
