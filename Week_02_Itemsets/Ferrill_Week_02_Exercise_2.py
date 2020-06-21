@@ -6,153 +6,124 @@
 #   Desc: Non-Derivable Itemset - compute whether an itemset is derivable or not
 #  Usage: A itemset is non-derivable if its support cannot be deduced 
 #         from the suports of its subsets
-#    Ref: 
+#    Ref: Jure Leskovec, A. R. (2020). Minning of Massive Datasets. Cambridge: Cambridge University Press. 
 # ------------------------------------------------------------------
-'''
-
-Non Derivable Itemsest
-
-Your goal here is to write a program to compute whether an itemset is derivable or not. The program should take as input the following two files:
-
-    FILE1: A list of itemsets with their support values (one per line). See the file: itemsets.txt (the format is "itemset - support"; one per line)
-    FILE2: A list of itemsets (one per line), whose support bounds have to be derived. See the file: ndi.txt
-
-Your program should output for each itemset in FILE2 the following info:
-
-itemset: [l,u] derivable/non-derivable
-
-where l and u are the lower and upper-bounds on the support.
-
-
-
-for x in itemsets:
-    all_ys = get_powersets(x)
-    for y in all_ys:
-        if len(x-y) is even # this is the set difference
-            compute bound and add to lower bound
-        else
-            compute bound and add to upper bound
-            
-compute bound(x,y,W,ds):
-    # x is my current itemset
-    # y is the current subset of my current itemset
-    # W is a list of all subsets of x
-    # ds this is a dict of itemsets : support built from itemsets.txt
-    bound_val = 0
-    for w in W:
-        if y is a subset of w:
-            calculate coefficient as -1 ^ (len(x-2) # this comes from eq 9.8 and 9.9. and is in the screenshot from Sam.
-            it is SLIGHTLY different than inclusion/exclusion in eq 9.7
-            get sub(w) by xrefing the itemset.txt file
-            bound += coef * sup(w)
-            
-            
-x.difference(y)
-c-ad is even
-c-ac is odd
-c-cd is odd
-
-tuple(itemsets) for key and value the support
-
-all_ys will go through all the subsets of CAD and determine if the difference of the current subset and CAD is odd/even
-Example 9.7 is actually quite helpful in that regard. 
-
-W = all_ys = get_powersets(x)
-then loop ==> 'for w in W:'
-always adding/substracting sup(x), because every y is a subset of x
-
-Example 9.7
-x = ACD and y = AC, diff in len will be a - Odd
-in the loop ==> 'for w in W'
-AC is subset of AC and ACD, so
-bound = 1xsup(AC) + 1xsup(ACD), which should have been only 1xsup(AC)
-
-------------------
-
-when len(x-w) - means number of elements in x that are not in w?
-in calculate bound, wouldn't you have len(x\y) which would be the number of elements in the itemset that are not in the subset?
-
-------------------
-'''
+# import statements
+# support DataFrame
 import pandas as pd
-import numpy as np
-import sys
+# support use of combinations
 from itertools import combinations
- 
-#import numpy as np 
-#import pandas as pd 
-from mlxtend.frequent_patterns import apriori, association_rules 
 
-def createCombo(_list_, combos):
-    comb_list = []    
-    for i in combinations(_list_, combos):
-        comb_list.append(i)    
-    return comb_list
-    
-def calcItemsSet(supp, _list_, _dict_, n):
-    val = 0.0
-    for i in range(n-1,0,-1):
-        combos= []
-        combos = createCombo(_list_,i)
-        
-        for ii in combos:
-            ck = all(item in ii for item in supp)
-            if ck or supp == ():
-                iii = int(_dict_[ii]) * pow(-1.0, (n+1) -i)
-                val += iii                                       
-    if supp == ():
+# function to get list of combinations of itemset of length num_combinations
+def get_combinations(itemset, num_combinations):
+    # build list of combinations 
+    combination_list = []
+    # loop through itemset and find combinations based on size of desired combination
+    for combination in combinations(itemset, num_combinations):
+        combination_list.append(combination)
+    return combination_list
+
+# function to calculate the bound value given the subset, itemset, 
+# frequent itemset dict, and length of subset
+def calc_value(st, itemset, dictionary, n):
+    # build subsets based on combinations
+    value = 0.0
+    for num in range(n-1, 0, -1):
+        # build list of combinations
+        subsets = get_combinations(itemset, num)
+        # loop through combinations list
+        for combination in subsets:
+            # get all items in combination based on items in itemset
+            ck = all(item in combination for item in st)
+            # increment value to support validation, identification of upper and lower bounds
+            if ck or st == ():
+                i = int(dictionary[combination]) * pow(-1.0, (n+1) - num)
+                value += i
+    # if combination set is empty, update dictionary values
+    if st == ():
         empty = 0
-        for i in _dict_.values():
-            empty += int(i)
-        val += empty * pow(-1.0,(n+1) - 0)
-    return val
+        for dict_value in dictionary.values():
+            empty += int(dict_value)
+        value += empty * pow(-1.0, (n+1))
+        
+    # return bound value
+    return value
 
-def getUppLwrBounds(_list_, _dict_):
-    upper = []
-    lower = []
-    n = len(_list_)
-    llist = _list_.copy()
-    for i in range(len(llist)):
-        combos = createCombo(llist,i)
-        isOdd = (n - len(combos[0]))%2
-        for ii in combos:
-            if isOdd:
-                upper.append(calcItemsSet(ii, _list_, _dict_, n))                
+# function to obtain upper and lower bounds given the itemet and frequent itemset dictionary
+def get_bounds(itemset, dictionary):
+    # set variables to obtain and determin upper and lower bound per itemset
+    upper_bounds = []
+    lower_bounds = []
+    lower_bound = 0
+    upper_bound = 0
+    n = len(itemset)
+    # loop through itemset and break down the combinations into subsets
+    for index in range(len(itemset)):
+        subsets = get_combinations(itemset, index)
+        # determin if the subset length is odd or even 
+        boolean_Odd = (n - len(subsets[0]))%2
+        # loop through each combination in the subset
+        for combination in subsets:
+            # if the length is odd, update upper bound list
+            if boolean_Odd:
+                upper_bounds.append(calc_value(combination, itemset, dictionary, n))
+            # if length is even, update lower bound list
             else:
-                lower.append(calcItemsSet(ii, _list_, _dict_, n))
-    if max(lower) == min(upper):
-        deriv = 'derivable'
+                lower_bounds.append(calc_value(combination, itemset, dictionary, n))
+    # if the maximum number in the lower bound list is less than zero, set lower bound to zero
+    if max(lower_bounds) < 0:
+        lower_bound = 0
+    # if maxium number is 0 or greater, set lower bound to that number
     else:
-        deriv = 'non-derivable'
-    results = '{}: [{},{}] {}'.format(_list_,max(lower), min(upper), deriv)
-    return results
-
+        lower_bound = max(lower_bounds)
+    
+    # set upper bound to the minumum number within the upper bound list
+    upper_bound = min(upper_bounds)
+    
+    # if lower and upper bound number are equal, the set is derivable, otherwise it is non-derivable
+    if lower_bound == upper_bound:
+        d = 'derivable'
+    else:
+        d = 'non-derivable'
+    
+    # report findings with subset, the lower and upper bound value, and whether or not is it derivable
+    return '{}: [{}, {}] {}'.format(itemset, lower_bound, upper_bound, d)
+    
+# main function for exercise three
 def main():
-    df = pd.read_csv('itemsets.txt', header = None)
-    ndi = pd.read_csv('ndi.txt', header = None)
+    # try block for execution
+    try:
+        # prepare data
+        itemset_df = pd.read_csv('itemsets.txt', header = None)
+        ndi_df = pd.read_csv('ndi.txt', header = None)
+        
+        # process itemset dataframe into dictionary
+        itemset_dict = {}
+        for i, itemset_support in enumerate(itemset_df[0]):
+            set_support_list = [] # list contains itemset and support where support is last element
+            for val in itemset_support.split(' '):
+                if val == '-':  # skip the hyphen
+                    continue
+                else:
+                    set_support_list.append(val)
+            # itemset becomes tuple key and is assigned to support
+            itemset_dict[tuple(set_support_list[:-1])] = set_support_list[-1]
+        # process ndi-df into dictionary
+        ndi_dict = {}
+        # dictionary is index as key with itemset as value
+        for i, itemset in enumerate(ndi_df[0]):
+            ndi_dict[i] = itemset.split(' ')
+        # main loop to print bounds and derivablility
+        for itemset in ndi_dict.values():
+            print(get_bounds(itemset, itemset_dict))
+    # exception block to catch any exceptions during execution
+    except Exception as exception:
+        print('exception')
+        # print the traceback of the exception
+        traceback.print_exc()
+        # list name of exception and any arguments
+        print('An exception of type {0} occurred.  Arguments:\n{1!r}'.format(type(exception).__name__, exception.args));   
 
-    d = {}
-    ndi_dict = {}
-    
-    for t, val in enumerate(df[0]):
-        _list_ = []
-        for i in val.split(' '):
-            if i == ' - ':
-                continue
-            else:
-                _list_.append(i)
-        d[tuple(_list_[:-1])] = _list_[-1]
-            
-    for t, val in enumerate(ndi[0]):
-        ndi_dict[t] = val.split(' ')
-    
-    for i in ndi_dict.values():
-        print(getUppLwrBounds(i,d))
-    
-    empty = 0
-    for i in d.values():
-        empty += int(i)
-    print(empty)
-
+# call to main function   
 if __name__ == '__main__':
     main()

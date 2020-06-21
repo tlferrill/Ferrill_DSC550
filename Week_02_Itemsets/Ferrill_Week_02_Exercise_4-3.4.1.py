@@ -64,5 +64,6 @@ def main():
         # list name of exception and any arguments
         print('An exception of type {0} occurred.  Arguments:\n{1!r}'.format(type(exception).__name__, exception.args));    
 
+# call to main function
 if __name__ == '__main__':
     main()
