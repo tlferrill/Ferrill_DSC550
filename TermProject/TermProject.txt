@@ -1,22 +1,35 @@
-Starting in Week 6 of the course, you will begin working on a term project. You will be updating and refining your project in three milestones and a final project submission throughout the remainder of the term. To give you an idea of the project structure, the milestone details are below. Milestones 1, 2, and 3, will be due in Weeks 6, 8, and 10, respectively. The final project submission will be due in Week 11.
+Starting in Week 6 of the course, you will begin working on a term project. You will be updating and refining your project in three milestones and a final 
+project submission throughout the remainder of the term.  To give you an idea of the project structure, the milestone details are below. Milestones 1, 2, and 3, 
+will be due in Weeks 6, 8, and 10, respectively. The final project submission will be due in Week 11.
 
-GitHub (https://github.com/): You are strongly encouraged to keep your term project content on GitHub for use in future courses and to show off your work to potential employers. You are welcome to submit GitHub links in Blackboard for your project milestones.
+GitHub (https://github.com/): You are strongly encouraged to keep your term project content on GitHub for use in future courses and to show off your work to potential employers. 
+You are welcome to submit GitHub links in Blackboard for your project milestones.
 
 Term Project Milestone 1: Data Selection and EDA
 
-It is time to start using what you have learned throughout the first half of this course by developing an original data mining project. This week you will develop the project idea and do some data exploration/graphical analysis. You will continue working on and updating this project for the remainder of the term. The following link includes a sample project completed in Jupyter Notebook: Titanic Model Building Project Sample (https://content.bellevue.edu/cst/dsc/550/id/data-files-and-sample-code/titanic-model-building-project-sample.zip).
+It is time to start using what you have learned throughout the first half of this course by developing an original data mining project. This week you will develop the project idea 
+and do some data exploration/graphical analysis. You will continue working on and updating this project for the remainder of the term. The following link includes a sample project 
+completed in Jupyter Notebook: Titanic Model Building Project Sample (https://content.bellevue.edu/cst/dsc/550/id/data-files-and-sample-code/titanic-model-building-project-sample.zip).
 
-The first step is coming up with an idea – arguably one of the hardest steps! Identify an original business problem for your project that can be solved with an appropriate model. By a business problem, it is meant that you should work on a problem where there is a good reason to solve it. There should be some organization or company that would find the solution to the problem useful. There are lots of ideas available online through Kaggle and other sources, but your idea should have a unique spin on it. The second step is locating your data. This can come from a variety of sources, e.g., Kaggle, your job, a website, API, etc. Feel free to reach out to your instructor if you are not sure if your idea and data are suitable. You may need to adjust your idea on the availability of data.
+The first step is coming up with an idea – arguably one of the hardest steps! Identify an original business problem for your project that can be solved with an appropriate model. 
+By a business problem, it is meant that you should work on a problem where there is a good reason to solve it. There should be some organization or company that would find the solution 
+to the problem useful. There are lots of ideas available online through Kaggle and other sources, but your idea should have a unique spin on it. The second step is locating your data. 
+This can come from a variety of sources, e.g., Kaggle, your job, a website, API, etc. Feel free to reach out to your instructor if you are not sure if your idea and data are suitable. 
+You may need to adjust your idea on the availability of data.
 
-Begin Milestone 1 with a 250-500-word narrative describing your original idea for the analysis/model building business problem. Clearly identify the problem you will address and the target for your model. Then, do a graphical analysis creating a minimum of four graphs. Label your graphs appropriately and explain/analyze the information provided by each graph. Your analysis should begin to answer the question(s) you are addressing. Write a short overview/conclusion of the insights gained from your graphical analysis.
+Begin Milestone 1 with a 250-500-word narrative describing your original idea for the analysis/model building business problem. Clearly identify the problem you will address and the 
+target for your model. Then, do a graphical analysis creating a minimum of four graphs. Label your graphs appropriately and explain/analyze the information provided by each graph. 
+Your analysis should begin to answer the question(s) you are addressing. Write a short overview/conclusion of the insights gained from your graphical analysis.
 
-As a reminder, Teams is a great place to discuss your project with your peers. Feel free to solicit feedback/input (without creating a group project!) and collaborate on your projects with your peers. Each milestone will build on top of each other, so make sure you do not fall behind.
+As a reminder, Teams is a great place to discuss your project with your peers. Feel free to solicit feedback/input (without creating a group project!) and collaborate on your 
+projects with your peers. Each milestone will build on top of each other, so make sure you do not fall behind.
 
 Project Milestone 1 is due by 11:59 PM on Sunday of Week 6. I recommend building your project milestones in a Jupyter Notebook, building upon one another.
 
 Term Project Milestone 2: Data Preparation
 
-Now that you have created your idea, located data, and have started your graphical analysis, you will move on to the data preparation process of your project. After completing Milestone 2, your data should be ready for the model building/evaluation phase.
+Now that you have created your idea, located data, and have started your graphical analysis, you will move on to the data preparation process of your project. 
+After completing Milestone 2, your data should be ready for the model building/evaluation phase.
 
 Here is a list of steps to consider performing in Milestone 2:
 
@@ -27,29 +40,40 @@ Here is a list of steps to consider performing in Milestone 2:
     deal with missing data (do not just drop rows or columns without justifying this)
     create dummy variables if necessary
 
-Explain your process at each step. You can use any methods/tools you think are most appropriate. Do what makes the most sense for your data/problem. This will vary greatly among different projects. Be careful to avoid data snooping in these steps.
+Explain your process at each step. You can use any methods/tools you think are most appropriate. Do what makes the most sense for your data/problem. 
+This will vary greatly among different projects. Be careful to avoid data snooping in these steps.
 
-It is important to note that these milestones are meant to keep you on track for the final project submission. At any point, you can pivot or modify your project as needed based on what you discover. These milestones are not final versions; they are drafts of the many steps you need to complete along the way.
+It is important to note that these milestones are meant to keep you on track for the final project submission. At any point, you can pivot or modify your project 
+as needed based on what you discover. These milestones are not final versions; they are drafts of the many steps you need to complete along the way.
 
-As a reminder, Teams is a great place to discuss your project with your peers. Feel free to solicit feedback/input (without creating a group project!) and collaborate on your projects with your peers.
+As a reminder, Teams is a great place to discuss your project with your peers. Feel free to solicit feedback/input (without creating a group project!) and 
+collaborate on your projects with your peers.
 
-Each milestone will build on top of each other, so make sure you do not fall behind. Submit Milestones 1 & 2 together. I recommend building your project milestones in a Jupyter Notebook, building upon one another. However, make sure it is clear where Milestone 1 ends and Milestone 2 begins. Milestone 2 is due no later than 11:59 PM on Sunday of Week 8.
+Each milestone will build on top of each other, so make sure you do not fall behind. Submit Milestones 1 & 2 together. I recommend building your project milestones 
+in a Jupyter Notebook, building upon one another. However, make sure it is clear where Milestone 1 ends and Milestone 2 begins. Milestone 2 is due no later than 11:59 PM on Sunday of Week 8.
 
 Term Project Milestone 3: Model Building and Evaluation
 
-In Milestone 3, you will begin the process of selecting, building, and evaluating a model. You are required to train and evaluate at least one model in this milestone. Write step-by-step for performing each of these steps. You can use any methods/tools you think are most appropriate, but you should explain/justify why you are selecting the model(s) and evaluation metric(s) you choose. It is important to think about what type of model and metric makes sense for your problem. Again, do what makes the most sense for your project. Write a short overview/conclusion of the insights gained from your model building/evaluation.
+In Milestone 3, you will begin the process of selecting, building, and evaluating a model. You are required to train and evaluate at least one model in this milestone. 
+Write step-by-step for performing each of these steps. You can use any methods/tools you think are most appropriate, but you should explain/justify why you are selecting the model(s) and 
+evaluation metric(s) you choose. It is important to think about what type of model and metric makes sense for your problem. Again, do what makes the most sense for your project. Write a short 
+overview/conclusion of the insights gained from your model building/evaluation.
 
-It is important to note that these milestones are meant to keep you on track for the final project submission. At any point, you can pivot or modify your project as needed based on what you discover. These milestones are not final versions; they are drafts of the many steps you need to complete along the way.
+It is important to note that these milestones are meant to keep you on track for the final project submission. At any point, you can pivot or modify your project as needed based on what you discover. 
+These milestones are not final versions; they are drafts of the many steps you need to complete along the way.
 
 As a reminder, Teams is a great place to discuss your project with your peers. Feel free to solicit feedback/input (without creating a group project!) and collaborate on your projects with your peers.
 
-Each milestone will build on top of each other, so make sure you do not fall behind. Submit Milestones 1-3 together. I recommend building your project milestones in a Jupyter Notebook, building upon one another. However, make sure it is clear where each milestone begins and ends. Milestone 3 is due no later than 11:59 PM on Sunday of Week 10.
+Each milestone will build on top of each other, so make sure you do not fall behind. Submit Milestones 1-3 together. I recommend building your project milestones in a Jupyter Notebook, 
+building upon one another. However, make sure it is clear where each milestone begins and ends. Milestone 3 is due no later than 11:59 PM on Sunday of Week 10.
 
 Term Project Final Submission
 
-You have made it to the final week of the course and the time has come to submit your final project! Using your own judgment and based on the feedback you have received, update your project accordingly. Add any new code and/or analysis to your content from Milestones 1-3. Clearly note what content has been added since Milestone 3. Include this as part of your final project submission.
+You have made it to the final week of the course and the time has come to submit your final project! Using your own judgment and based on the feedback you have received, update your project 
+accordingly. Add any new code and/or analysis to your content from Milestones 1-3. Clearly note what content has been added since Milestone 3. Include this as part of your final project submission.
 
-The primary final submission for the term project is a minimum five-page project writeup, e.g., MS Word or PDF file, summarizing the details of your project. Your final submission should include the following.
+The primary final submission for the term project is a minimum five-page project writeup, e.g., MS Word or PDF file, summarizing the details of your project. 
+Your final submission should include the following.
 
     Introduction
     Introduce the problem
@@ -70,5 +94,6 @@ To summarize, you should submit the following two items for your term project fi
 
     All code, content, and analysis from Milestones 1-3 along with any updates
     Project writeup described above
+
 
 Your Final Project Submission is due no later than 11:59 PM on Sunday of Week 11.
