@@ -1,0 +1,91 @@
+#get path to notebook...
+import os
+print(os.getcwd())
+
+
+-------------------------
+
+import os
+
+# Change to your desired directory
+os.chdir(r"C:\Users\14023\DSC550\Week_01")  # Windows example
+
+
+# Verify the change
+print(f"Current working directory: {os.getcwd()}")
+
+
+### Option 2: Launch Jupyter Notebook from your desired directory
+
+#1. Open your command prompt or terminal
+#2. Navigate to your desired directory:
+   
+
+ #  cd C:\Users\YourUsername\Documents\YourProject  # Windows
+   # or
+   # cd /home/yourusername/Documents/YourProject  # Linux/Mac
+   
+
+#3. Launch Jupyter Notebook:
+   
+ #cd C:\Users\14023\DSC550\Week_01
+ #jupyter notebook
+ 
+ 
+   
+
+
+### Option 3: Set up a specific directory as a Jupyter data directory
+
+# In your notebook, create a variable with your data directory
+data_dir = r"C:\Users\YourUsername\Documents\YourData"  # Windows
+# or
+# data_dir = "/home/yourusername/Documents/YourData"  # Linux/Mac
+
+# Then use this variable when accessing files
+import pandas as pd
+file_path = os.path.join(data_dir, "your_file.csv")
+df = pd.read_csv(file_path)
+
+
+### Option 4: Add a new Jupyter kernel with a specific starting directory
+
+1. Create a new kernel configuration:
+   
+
+   jupyter kernelspec install-self --name "python-myproject" --display-name "Python (MyProject)"
+   
+
+2. Edit the kernel.json file to include the working directory
+
+Remember to use raw strings (prefix with `r`) or double backslashes when specifying Windows paths to avoid escape character issues.
+Chat
+45%
+full
+2
+💻︎ anaconda-2024.02-py310 | Idle
+0
+English (United States)
+Exercise_1.2_TeresaFerrill.ipynb
+Ln 1, Col 1
+Mode: Command
+Help
+Submit a Request
+
+
+--------------------
+Rescaling
+
+Both Pandas and NumPy are powerful libraries for handling and manipulating numerical data - especially when rescaling.  Also known as normalization/standardization, rescaling is a crutial preprocessing step for many data analysis and machine learning tasks.  
+
+Rescaling includes different techniques, including min-max scaling (normalization), standardization (Z-score normalization), and max absolute scaling.  Each differ in their forumals, the range they produce, and their sensitivity to outliers.  
+
+Min-max scaling rescales the data to a fixed range, typically [0,1], and preserves the original distribution.  It is best to use with data that has a known fixed range.  Min-max scaling is highly sensitive to outliers, extreme values can disproportionately compress the range of the rest of the data
+
+Z-score normalization rescales the data to have a mean of 0 and a standard deviation of 1.  The range is not bounded.  Z-score transfors the data to a standard normal distribution.  It is best to use with data that follows a normal or near-normal distribution.  Z-score normalization is less affected by outliers than min-max scaling because it uses the standard deviation - be can be influenced by extremely distant outliers.
+
+Max absolute scaling rescales the data to be within the rand of [-1,1], and preserves the sparsity of the data (the presence of zero values) - it does not center the data.  It is best to use with a sparce data set, when the dataset contains many zero values.  Max absolute scaling is highly sensitive to outliers because the scaling factor is the single maximum absolute value.
+
+Choosing the appropriate scaling method depends on data characteristics along with the requirements of the machine learning model.
+
+Have any of you used any of these scaling techniques and what was your decision process in choosing the scaling method?
